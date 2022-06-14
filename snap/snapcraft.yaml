@@ -1,0 +1,88 @@
+name: gtk-theme-orchis
+architectures:
+  - build-on: amd64
+    run-on: all
+version: '2022-05-29'
+summary: Orchis theme
+description: |
+  Snap of the Orchis theme
+
+# We build against Ubuntu 20.04 packages, but use the "bare" base as
+# we don't want to force installation of a large base snap.
+build-base: core20
+base: bare
+grade: stable
+confinement: strict
+
+slots:
+  gtk-3-themes:
+    interface: content
+    source:
+      read:
+        - $SNAP/share/themes/Orchis-Light
+        - $SNAP/share/themes/Orchis-Dark
+  gtk-4-themes:
+    interface: content
+    source:
+      read:
+        - $SNAP/share/themes/Orchis-Light
+        - $SNAP/share/themes/Orchis-Dark
+
+parts:
+  theme:
+    plugin: dump
+    source: https://github.com/vinceliuice/Orchis-theme/archive/refs/tags/2022-05-29.tar.gz
+    override-build: |
+        snapcraftctl build
+
+        ### Light theme
+        mkdir -p $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/assets/ $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/render-assets.sh $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/scalable/ $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/thumbnail* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/
+        # gtk-3.0
+        mkdir -p $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/gtk-3.0
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/3.0/gtk-Light* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/gtk-3.0/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/3.0/gtk.* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/gtk-3.0/
+        # gtk-4.0
+        mkdir -p $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/gtk-4.0
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/4.0/gtk-Light* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/gtk-4.0/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/4.0/gtk.* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Light/gtk-4.0/ 
+
+        ### Dark theme
+        mkdir -p $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/assets/ $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/render-assets.sh $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/scalable/ $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/thumbnail* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/
+        # gtk-3.0
+        mkdir -p $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/gtk-3.0
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/3.0/gtk-Dark* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/gtk-3.0/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/3.0/gtk.* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/gtk-3.0/
+        # gtk-4.0
+        mkdir -p $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/gtk-4.0
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/4.0/gtk-Dark* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/gtk-4.0/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/4.0/gtk.* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Dark/gtk-4.0/ 
+
+        ### Compact theme
+        mkdir -p $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/assets/ $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/render-assets.sh $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/scalable/ $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/thumbnail* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/
+        # gtk-3.0
+        mkdir -p $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/gtk-3.0
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/3.0/gtk-Compact* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/gtk-3.0/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/3.0/gtk.* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/gtk-3.0/
+        # gtk-4.0
+        mkdir -p $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/gtk-4.0
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/4.0/gtk-Compact* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/gtk-4.0/
+        cp -r $SNAPCRAFT_PART_SRC/src/gtk/4.0/gtk.* $SNAPCRAFT_PART_INSTALL/share/themes/Orchis-Compact/gtk-4.0/ 
+
+        $SNAPCRAFT_PART_SRC/install.sh -d $SNAPCRAFT_PART_INSTALL
+
+    build-packages:
+      - gtk-update-icon-cache
+    stage:
+      - share/themes/*
