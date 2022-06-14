@@ -21,12 +21,7 @@ slots:
       read:
         - $SNAP/share/themes/Orchis-Light
         - $SNAP/share/themes/Orchis-Dark
-  gtk-4-themes:
-    interface: content
-    source:
-      read:
-        - $SNAP/share/themes/Orchis-Light
-        - $SNAP/share/themes/Orchis-Dark
+        - $SNAP/share/themes/Orchis-Compact
 
 parts:
   theme:
